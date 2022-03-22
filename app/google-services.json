@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "520611158183",
+    "project_id": "jharkhand-regional-language",
+    "storage_bucket": "jharkhand-regional-language.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520611158183:android:ccdeaafe9d9a77fd402382",
+        "android_client_info": {
+          "package_name": "ashutosh.jharkhand.regional"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520611158183-urm5pj264glpt8ajg91n9eghmfv434jv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFSsH2EGCRV5wH6cmk7YCVz8EvLaha-zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520611158183-urm5pj264glpt8ajg91n9eghmfv434jv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
