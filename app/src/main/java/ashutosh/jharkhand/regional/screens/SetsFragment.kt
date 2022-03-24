@@ -48,6 +48,7 @@ class SetsFragment : Fragment() {
                         set,
                         args.topic,
                         args.category,
+                        "Set-" + set.number.toString()
                     )
                 )
             }

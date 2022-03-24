@@ -2,6 +2,7 @@ package ashutosh.jharkhand.regional.viewModels
 
 import android.app.Application
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
@@ -25,7 +26,11 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     private val db = Firebase.firestore
 
     val questionNumber = MutableLiveData<String>()
-    val question = MutableLiveData<String>()
+
+    private val _question = MutableLiveData<String>()
+    val question: LiveData<String>
+    get() = _question
+
     val opt1 = MutableLiveData<String>()
     val opt2 = MutableLiveData<String>()
     val opt3 = MutableLiveData<String>()
@@ -49,17 +54,30 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     val loadingStatus: LiveData<String>
         get() = _loadingStatus
 
+    private val _isQuizDone = MutableLiveData<Boolean>()
+    val isQuizDone: LiveData<Boolean>
+        get() = _isQuizDone
+
+    private val _showScore = MutableLiveData<Boolean>()
+    val showScore: LiveData<Boolean>
+        get() = _showScore
+
     init {
         _loadingStatus.value = LOADING_STATUS_LOADING
+        _isQuizDone.value = false
+        _showScore.value = false
+        _question.value = ""
     }
 
     fun opt1Click() {
         isOptionClickable.value = false
         isOptionClickedForCurrentQuestion = true
         if (currentQuestions[currentPos].correctAnswer == 0) {
+            Toast.makeText(getApplication(), "right answer", Toast.LENGTH_SHORT).show()
             currentScore++
             opt_1_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_right)
         } else {
+            Toast.makeText(getApplication(), "wrong answer", Toast.LENGTH_SHORT).show()
             opt_1_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_wrong)
 
             when (currentQuestions[currentPos].correctAnswer) {
@@ -75,9 +93,11 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         isOptionClickable.value = false
         isOptionClickedForCurrentQuestion = true
         if (currentQuestions[currentPos].correctAnswer == 1) {
+            Toast.makeText(getApplication(), "right answer", Toast.LENGTH_SHORT).show()
             currentScore++
             opt_2_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_right)
         } else {
+            Toast.makeText(getApplication(), "wrong answer", Toast.LENGTH_SHORT).show()
             opt_2_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_wrong)
 
             when (currentQuestions[currentPos].correctAnswer) {
@@ -93,9 +113,11 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         isOptionClickable.value = false
         isOptionClickedForCurrentQuestion = true
         if (currentQuestions[currentPos].correctAnswer == 2) {
+            Toast.makeText(getApplication(), "right answer", Toast.LENGTH_SHORT).show()
             currentScore++
             opt_3_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_right)
         } else {
+            Toast.makeText(getApplication(), "wrong answer", Toast.LENGTH_SHORT).show()
             opt_3_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_wrong)
 
             when (currentQuestions[currentPos].correctAnswer) {
@@ -111,9 +133,11 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         isOptionClickable.value = false
         isOptionClickedForCurrentQuestion = true
         if (currentQuestions[currentPos].correctAnswer == 3) {
+            Toast.makeText(getApplication(), "right answer", Toast.LENGTH_SHORT).show()
             currentScore++
             opt_4_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_right)
         } else {
+            Toast.makeText(getApplication(), "wrong answer", Toast.LENGTH_SHORT).show()
             opt_4_background.value = ContextCompat.getDrawable(getApplication(), R.drawable.custom_button_wrong)
 
             when (currentQuestions[currentPos].correctAnswer) {
@@ -161,7 +185,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun setDataToViews() {
-        question.value = "Q- " + currentQuestions[currentPos].question
+        _question.value = "Q- " + currentQuestions[currentPos].question
         questionNumber.value = (currentPos + 1).toString() + " out of " + currentQuestions.size.toString()
 
         opt1.value = currentQuestions[currentPos].opt1
@@ -184,11 +208,25 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
                 currentPos++
                 setDataToViews()
             } else {
-                Toast.makeText(getApplication(), "Test finished, score: $currentScore", Toast.LENGTH_SHORT).show()
+                _showScore.value = true
             }
         } else {
-            Toast.makeText(getApplication(), "select any option before going ahead", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getApplication(), "select option", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun restartQuiz() {
+        currentPos = 0
+        currentScore = 0
+        setDataToViews()
+    }
+
+    fun setQuizDone() {
+        _isQuizDone.value = true
+    }
+
+    fun showScoreDone() {
+        _showScore.value = false
     }
 
 

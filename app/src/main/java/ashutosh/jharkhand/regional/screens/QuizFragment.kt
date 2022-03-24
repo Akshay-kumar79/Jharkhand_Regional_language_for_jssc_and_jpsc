@@ -24,14 +24,33 @@ class QuizFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentQuizBinding.inflate(inflater, container, false)
-        quizViewModel = ViewModelProvider(this)[QuizViewModel::class.java]
+        quizViewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.quiz_nav_graph))[QuizViewModel::class.java]
 
         quizViewModel.getQuestionsFromFirebase(args.category.id, args.topic.id, args.set.id)
 
         binding.quizViewModel = quizViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        setObservers()
+
         return binding.root
+    }
+
+    private fun setObservers() {
+
+        quizViewModel.showScore.observe(viewLifecycleOwner){
+            if (it){
+                val dialog =ScoreFragmentDialog()
+                dialog.show(requireActivity().supportFragmentManager, dialog.tag)
+                quizViewModel.showScoreDone()
+            }
+        }
+
+        quizViewModel.isQuizDone.observe(viewLifecycleOwner){
+            if (it){
+                findNavController().popBackStack()
+            }
+        }
     }
 
 }

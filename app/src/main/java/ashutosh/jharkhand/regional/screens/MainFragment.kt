@@ -39,7 +39,7 @@ class MainFragment : Fragment() {
         binding.categoryRecyclerView.setHasFixedSize(true)
 
         val categoryAdapter = CategoryAdapter(CategoryClickListener { category ->
-            findNavController().navigate(MainFragmentDirections.actionMainFragmentToTopicFragment(category))
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToTopicFragment(category, category.categoryName))
         })
         binding.categoryRecyclerView.adapter = categoryAdapter
     }

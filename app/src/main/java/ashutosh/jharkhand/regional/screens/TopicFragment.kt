@@ -44,7 +44,7 @@ class TopicFragment : Fragment() {
 
         val topicAdapter = TopicAdapter(args.category.categoryImage,
             TopicClickListener { topic ->
-                findNavController().navigate(TopicFragmentDirections.actionTopicFragmentToSetsFragment(topic, args.category))
+                findNavController().navigate(TopicFragmentDirections.actionTopicFragmentToSetsFragment(topic, args.category, topic.topicName))
             }
         )
         binding.topicRecyclerView.adapter = topicAdapter

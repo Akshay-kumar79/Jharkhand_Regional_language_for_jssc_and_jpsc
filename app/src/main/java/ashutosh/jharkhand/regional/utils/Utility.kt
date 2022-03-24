@@ -1,10 +1,15 @@
 package ashutosh.jharkhand.regional.utils
 
+import android.R
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import java.io.ByteArrayOutputStream
+
 
 fun bitmapFromDrawable(id: Int, context: Context): Bitmap = BitmapFactory.decodeResource(context.resources, id)
 

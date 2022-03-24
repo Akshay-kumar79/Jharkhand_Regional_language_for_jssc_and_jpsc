@@ -25,17 +25,6 @@
             app:title=""
             app:titleTextColor="@color/white">
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/ubuntu_bold"
-                android:gravity="center_horizontal"
-                android:text="@string/home"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
         </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.fragment.app.FragmentContainerView

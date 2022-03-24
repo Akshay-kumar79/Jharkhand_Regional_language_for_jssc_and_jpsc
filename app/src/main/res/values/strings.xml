@@ -9,6 +9,9 @@
     <string name="no_categories_found">No categories found</string>
     <string name="no_test_found">No test found</string>
     <string name="no_topic_found">No topic found</string>
+    <string name="ok">ok</string>
+    <string name="restart">restart</string>
+    <string name="score">Score</string>
 
 
 </resources>

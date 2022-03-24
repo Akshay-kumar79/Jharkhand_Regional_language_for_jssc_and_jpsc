@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="ashutosh.jharkhand.regional.screens.MainFragment"
-        android:label="" >
+        android:label="Home">
         <action
             android:id="@+id/action_mainFragment_to_topicFragment"
             app:destination="@id/topicFragment" />
@@ -16,11 +16,14 @@
     <fragment
         android:id="@+id/topicFragment"
         android:name="ashutosh.jharkhand.regional.screens.TopicFragment"
-        android:label=""
-        tools:layout="@layout/fragment_topic" >
+        android:label="{categoryName}"
+        tools:layout="@layout/fragment_topic">
         <argument
             android:name="category"
             app:argType="ashutosh.jharkhand.regional.models.Category" />
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
         <action
             android:id="@+id/action_topicFragment_to_setsFragment"
             app:destination="@id/setsFragment" />
@@ -29,32 +32,61 @@
     <fragment
         android:id="@+id/setsFragment"
         android:name="ashutosh.jharkhand.regional.screens.SetsFragment"
-        android:label="" >
+        android:label="{topicName}">
         <argument
             android:name="topic"
             app:argType="ashutosh.jharkhand.regional.models.Topic" />
         <argument
             android:name="category"
             app:argType="ashutosh.jharkhand.regional.models.Category" />
+        <argument
+            android:name="topicName"
+            app:argType="string" />
         <action
             android:id="@+id/action_setsFragment_to_quizFragment"
-            app:destination="@id/quizFragment" />
+            app:destination="@id/quiz_nav_graph" >
+            <argument
+                android:name="set"
+                app:argType="ashutosh.jharkhand.regional.models.Set" />
+            <argument
+                android:name="topic"
+                app:argType="ashutosh.jharkhand.regional.models.Topic" />
+            <argument
+                android:name="category"
+                app:argType="ashutosh.jharkhand.regional.models.Category" />
+            <argument
+                android:name="setName"
+                app:argType="string" />
+        </action>
 
     </fragment>
-    <fragment
-        android:id="@+id/quizFragment"
-        android:name="ashutosh.jharkhand.regional.screens.QuizFragment"
-        android:label="" >
+    <navigation android:id="@+id/quiz_nav_graph"
+        app:startDestination="@id/quizFragment">
+        <fragment
+            android:id="@+id/quizFragment"
+            android:name="ashutosh.jharkhand.regional.screens.QuizFragment"
+            android:label="{setName}">
 
-        <argument
-            android:name="set"
-            app:argType="ashutosh.jharkhand.regional.models.Set" />
-        <argument
-            android:name="topic"
-            app:argType="ashutosh.jharkhand.regional.models.Topic" />
-        <argument
-            android:name="category"
-            app:argType="ashutosh.jharkhand.regional.models.Category" />
+            <argument
+                android:name="set"
+                app:argType="ashutosh.jharkhand.regional.models.Set" />
+            <argument
+                android:name="topic"
+                app:argType="ashutosh.jharkhand.regional.models.Topic" />
+            <argument
+                android:name="category"
+                app:argType="ashutosh.jharkhand.regional.models.Category" />
+            <argument
+                android:name="setName"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_quizFragment_to_scoreFragmentDialog"
+                app:destination="@id/scoreFragmentDialog" />
 
-    </fragment>
+        </fragment>
+        <dialog
+            android:id="@+id/scoreFragmentDialog"
+            android:name="ashutosh.jharkhand.regional.screens.ScoreFragmentDialog"
+            android:label="ScoreFragmentDialog" />
+    </navigation>
 </navigation>
