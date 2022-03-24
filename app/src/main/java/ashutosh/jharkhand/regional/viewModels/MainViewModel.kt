@@ -1,6 +1,7 @@
 package ashutosh.jharkhand.regional.viewModels
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -10,6 +11,7 @@ import ashutosh.jharkhand.regional.models.Question
 import ashutosh.jharkhand.regional.models.Set
 import ashutosh.jharkhand.regional.models.Topic
 import ashutosh.jharkhand.regional.utils.Constants
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -21,21 +23,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val categories: LiveData<List<Category>>
         get() = _categories
 
-    private var allCategories = ArrayList<Category>()
-    private var allTopics = ArrayList<Topic>()
-    private var allSets = ArrayList<Set>()
-    private var allQuestions = ArrayList<Question>()
+    private val _currentTopics = MutableLiveData<List<Topic>>()
+    val currentTopics: LiveData<List<Topic>>
+        get() = _currentTopics
+
+    private val _currentSets = MutableLiveData<List<Set>>()
+    val currentSets: LiveData<List<Set>>
+        get() = _currentSets
+
+    private val _currentQuestion = MutableLiveData<List<Question>>()
+    val currentQuestion: LiveData<List<Question>>
+        get() = _currentQuestion
 
     init {
         getDataFromFirebase()
     }
 
     private fun getDataFromFirebase() {
-        db.collection(Constants.CATEGORIES_COLLECTION).get()
+        db.collection(Constants.CATEGORIES_COLLECTION).orderBy(Constants.CATEGORIES_TIME_FIELD).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
+                    val newCategories = ArrayList<Category>()
                     for (document in documents) {
-                        allCategories.add(
+                        newCategories.add(
                             Category(
                                 document.id,
                                 document.getString(Constants.CATEGORIES_NAME_FIELD) ?: "",
@@ -43,31 +53,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                 document.getLong(Constants.CATEGORIES_TIME_FIELD) ?: 0
                             )
                         )
-                        getTopicsFromFirebase(document.id)
                     }
+                    _categories.value = newCategories
                 }
             }
             .addOnFailureListener {
                 Toast.makeText(getApplication(), it.message, Toast.LENGTH_SHORT).show()
             }
+
     }
 
     private fun getTopicsFromFirebase(categoryID: String) {
         db.collection(Constants.CATEGORIES_COLLECTION).document(categoryID)
-            .collection(Constants.TOPIC_COLLECTION).get()
+            .collection(Constants.TOPIC_COLLECTION).orderBy(Constants.TOPIC_TIME_FIELD).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
+                    val newTopics = ArrayList<Topic>()
                     for (document in documents) {
-                        allTopics.add(
+                        newTopics.add(
                             Topic(
                                 document.id,
-                                categoryID,
                                 document.getString(Constants.TOPIC_NAME_FIELD) ?: "",
                                 document.getLong(Constants.TOPIC_TIME_FIELD) ?: 0
                             )
                         )
-                        getSetsFromFirebase(categoryID, document.id)
                     }
+                    _currentTopics.value = newTopics
                 }
             }
             .addOnFailureListener {
@@ -78,20 +89,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun getSetsFromFirebase(categoryId: String, topicId: String) {
         db.collection(Constants.CATEGORIES_COLLECTION).document(categoryId)
             .collection(Constants.TOPIC_COLLECTION).document(topicId)
-            .collection(Constants.SET_COLLECTION).get()
+            .collection(Constants.SET_COLLECTION).orderBy(Constants.SET_NUMBER_FIELD).get()
             .addOnSuccessListener { documents ->
                 if (documents != null) {
+                    val newSets = ArrayList<Set>()
                     for (document in documents) {
-                        allSets.add(
+                        newSets.add(
                             Set(
                                 document.id,
-                                categoryId,
-                                topicId,
                                 (document.get(Constants.SET_NUMBER_FIELD) as Long?)?.toInt() ?: 0
                             )
                         )
-                        getQuestionsFromFirebase(categoryId, topicId, document.id)
                     }
+                    _currentSets.value = newSets
                 }
             }
             .addOnFailureListener {
@@ -103,31 +113,39 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         db.collection(Constants.CATEGORIES_COLLECTION).document(categoryId)
             .collection(Constants.TOPIC_COLLECTION).document(topicId)
             .collection(Constants.SET_COLLECTION).document(setId)
-            .collection(Constants.QUESTION_COLLECTION).get()
+            .collection(Constants.QUESTION_COLLECTION).orderBy(Constants.QUESTION_TIME_FIELD).get()
             .addOnSuccessListener { documents ->
-                if (documents != null){
+                if (documents != null) {
+                    val newQuestions = ArrayList<Question>()
                     for (document in documents) {
-                        allQuestions.add(
+                        newQuestions.add(
                             Question(
                                 document.id,
-                                categoryId,
-                                topicId,
-                                setId,
-                                document.getString(Constants.QUESTION_QUESTION_FIELD)?: "",
-                                document.getString(Constants.QUESTION_OPTION_1_FIELD)?: "",
-                                document.getString(Constants.QUESTION_OPTION_2_FIELD)?: "",
-                                document.getString(Constants.QUESTION_OPTION_3_FIELD)?: "",
-                                document.getString(Constants.QUESTION_OPTION_4_FIELD)?: "",
+                                document.getString(Constants.QUESTION_QUESTION_FIELD) ?: "",
+                                document.getString(Constants.QUESTION_OPTION_1_FIELD) ?: "",
+                                document.getString(Constants.QUESTION_OPTION_2_FIELD) ?: "",
+                                document.getString(Constants.QUESTION_OPTION_3_FIELD) ?: "",
+                                document.getString(Constants.QUESTION_OPTION_4_FIELD) ?: "",
                                 (document.get(Constants.QUESTION_CORRECT_ANSWER_FIELD) as Long?)?.toInt() ?: 0,
-                                document.getLong(Constants.QUESTION_TIME_FIELD)?: 0
+                                document.getLong(Constants.QUESTION_TIME_FIELD) ?: 0
                             )
                         )
                     }
+                    _currentQuestion.value = newQuestions
                 }
             }
             .addOnFailureListener {
                 Toast.makeText(getApplication(), it.message, Toast.LENGTH_SHORT).show()
             }
     }
+
+    fun updateTopics(categoryId: String) {
+        getTopicsFromFirebase(categoryId)
+    }
+
+    fun updateSets(categoryId: String, topicId: String) {
+        getSetsFromFirebase(categoryId, topicId)
+    }
+
 
 }

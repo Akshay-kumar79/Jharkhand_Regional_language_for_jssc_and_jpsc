@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="category"
+            type="ashutosh.jharkhand.regional.models.Category" />
+        <variable
+            name="categoryClickListener"
+            type="ashutosh.jharkhand.regional.adapter.CategoryClickListener" />
     </data>
 
     <FrameLayout
@@ -16,7 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            app:cardCornerRadius="4dp">
+            android:foreground="?selectableItemBackground"
+            android:onClick="@{() -> categoryClickListener.onClick(category)}"
+            app:cardCornerRadius="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,7 +34,8 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:scaleType="centerCrop"
+                    android:layout_margin="8dp"
+                    android:scaleType="fitCenter"
                     tools:src="@drawable/ic_simple_shiny"/>
 
                 <TextView

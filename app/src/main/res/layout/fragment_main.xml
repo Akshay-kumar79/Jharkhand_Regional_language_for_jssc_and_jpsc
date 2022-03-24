@@ -4,19 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="ashutosh.jharkhand.regional.viewModels.MainViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_simple_shiny"
         tools:context=".screens.MainFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/category_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            listCategories="@{viewModel.categories}"
             android:layout_marginHorizontal="8dp"
             android:orientation="vertical"
             app:spanCount="2"

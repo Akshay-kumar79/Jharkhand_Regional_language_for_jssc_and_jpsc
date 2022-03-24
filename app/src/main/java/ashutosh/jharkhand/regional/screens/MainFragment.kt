@@ -5,44 +5,43 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import ashutosh.jharkhand.regional.R
 import ashutosh.jharkhand.regional.models.Category
 import ashutosh.jharkhand.regional.adapter.CategoryAdapter
+import ashutosh.jharkhand.regional.adapter.CategoryClickListener
 import ashutosh.jharkhand.regional.databinding.FragmentMainBinding
+import ashutosh.jharkhand.regional.viewModels.MainViewModel
 
 
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.nav_graph_xml))[MainViewModel::class.java]
 
-        val categories = ArrayList<Category>()
-        categories.add(Category("id", "Maths", "asdd"))
-        categories.add(Category("id", "English", "asdd"))
-        categories.add(Category("id", "Science", "asdd"))
-        categories.add(Category("id", "Sanskrit", "asdd"))
-        categories.add(Category("id", "Hindi", "asdd"))
-        categories.add(Category("id", "SST", "asdd"))
-        categories.add(Category("id", "Physics", "asdd"))
-        categories.add(Category("id", "Chemistry", "asdd"))
-        categories.add(Category("id", "Biology", "asdd"))
-        categories.add(Category("id", "Physical education", "asdd"))
-        categories.add(Category("id", "Computer science", "asdd"))
-        categories.add(Category("id", "Computer graphics", "asdd"))
-        categories.add(Category("id", "Linux OS", "asdd"))
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
-
-        binding.categoryRecyclerView.setHasFixedSize(true)
-
-        val categoryAdapter = CategoryAdapter()
-        binding.categoryRecyclerView.adapter = categoryAdapter
-        categoryAdapter.setData(categories)
+        setUpRecyclerView()
 
         return binding.root
+    }
+
+    private fun setUpRecyclerView() {
+        binding.categoryRecyclerView.setHasFixedSize(true)
+
+        val categoryAdapter = CategoryAdapter(CategoryClickListener { category ->
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToTopicFragment(category))
+        })
+        binding.categoryRecyclerView.adapter = categoryAdapter
     }
 
 }

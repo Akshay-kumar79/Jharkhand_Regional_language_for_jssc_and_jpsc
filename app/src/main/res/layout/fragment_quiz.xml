@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="quizViewModel"
+            type="ashutosh.jharkhand.regional.viewModels.QuizViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@drawable/ic_simple_shiny">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:context=".screens.QuizFragment">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:text="1 out of 21"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:text="Q-1 Identify the incorrect constructor type."
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_marginTop="24dp"
+                    app:cardBackgroundColor="#164170"
+                    app:cardCornerRadius="16dp"
+                    app:strokeColor="@color/black"
+                    app:strokeWidth="1dp">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginVertical="16dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                        <RadioButton
+                            android:id="@+id/opt_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_button_normal"
+                            android:button="@android:color/transparent"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:text="Find constructor"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/opt_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/custom_button_normal"
+                            android:button="@android:color/transparent"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:text="Default constructor"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/opt_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/custom_button_normal"
+                            android:button="@android:color/transparent"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:text="Parameterized constructor"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/opt_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/custom_button_normal"
+                            android:button="@android:color/transparent"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:text="Copy constructor"
+                            android:textColor="@color/white" />
+
+                    </RadioGroup>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="48dp"
+                    android:text="@string/next"
+                    app:backgroundTint="#9E88FF"
+                    app:icon="@drawable/ic_round_play_arrow_24"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="1dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </ScrollView>
+    </FrameLayout>
+</layout>

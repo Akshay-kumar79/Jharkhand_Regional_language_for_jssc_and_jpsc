@@ -1,11 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
     app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="ashutosh.jharkhand.regional.screens.MainFragment"
-        android:label="" />
+        android:label="" >
+        <action
+            android:id="@+id/action_mainFragment_to_topicFragment"
+            app:destination="@id/topicFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topicFragment"
+        android:name="ashutosh.jharkhand.regional.screens.TopicFragment"
+        android:label=""
+        tools:layout="@layout/fragment_topic" >
+        <argument
+            android:name="category"
+            app:argType="ashutosh.jharkhand.regional.models.Category" />
+        <action
+            android:id="@+id/action_topicFragment_to_setsFragment"
+            app:destination="@id/setsFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/setsFragment"
+        android:name="ashutosh.jharkhand.regional.screens.SetsFragment"
+        android:label="" >
+        <argument
+            android:name="topic"
+            app:argType="ashutosh.jharkhand.regional.models.Topic" />
+        <argument
+            android:name="category"
+            app:argType="ashutosh.jharkhand.regional.models.Category" />
+        <action
+            android:id="@+id/action_setsFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="ashutosh.jharkhand.regional.screens.QuizFragment"
+        android:label="" >
+
+        <argument
+            android:name="set"
+            app:argType="ashutosh.jharkhand.regional.models.Set" />
+        <argument
+            android:name="topic"
+            app:argType="ashutosh.jharkhand.regional.models.Topic" />
+        <argument
+            android:name="category"
+            app:argType="ashutosh.jharkhand.regional.models.Category" />
+
+    </fragment>
 </navigation>
