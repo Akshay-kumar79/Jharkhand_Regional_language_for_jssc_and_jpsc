@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="ashutosh.jharkhand.regional.viewModels.MainViewModel"/>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="ashutosh.jharkhand.regional.viewModels.MainViewModel" />
@@ -14,11 +16,28 @@
         android:layout_height="match_parent"
         tools:context=".screens.MainFragment">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.categoryLoadingStatus == MainViewModel.LOADING_STATUS_NO_FOUND ? View.VISIBLE : View.GONE}"
+            android:text="@string/no_categories_found"
+            android:textColor="@color/white"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="gone"
+            android:visibility="@{viewModel.categoryLoadingStatus == MainViewModel.LOADING_STATUS_LOADING ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/main_theme"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/category_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             listCategories="@{viewModel.categories}"
+            android:visibility="@{viewModel.categoryLoadingStatus == MainViewModel.LOADING_STATUS_COMPLETE ? View.VISIBLE : View.GONE}"
             android:layout_marginHorizontal="8dp"
             android:orientation="vertical"
             app:spanCount="2"

@@ -15,20 +15,21 @@ import ashutosh.jharkhand.regional.adapter.TopicAdapter
 import ashutosh.jharkhand.regional.adapter.TopicClickListener
 import ashutosh.jharkhand.regional.databinding.FragmentTopicBinding
 import ashutosh.jharkhand.regional.viewModels.MainViewModel
+import ashutosh.jharkhand.regional.viewModels.TopicViewModel
 
 class TopicFragment : Fragment() {
 
     private val args: TopicFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentTopicBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: TopicViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTopicBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.nav_graph_xml))[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this)[TopicViewModel::class.java]
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -48,10 +49,7 @@ class TopicFragment : Fragment() {
         )
         binding.topicRecyclerView.adapter = topicAdapter
 
-//        val emptyDataObserver = EmptyDataObserver(binding.topicRecyclerView, binding.emptyTextView, binding.longClickText)
-//        topicAdapter.registerAdapterDataObserver(emptyDataObserver)
-
-        viewModel.updateTopics(args.category.id)
+        viewModel.getTopicsFromFirebase(args.category.id)
     }
 
 }

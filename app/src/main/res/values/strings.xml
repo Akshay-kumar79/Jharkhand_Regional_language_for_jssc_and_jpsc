@@ -5,6 +5,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_item_available">No Item Available</string>
     <string name="next">Next</string>
+    <string name="no_questions_found_for_this_text">No questions found for this text</string>
+    <string name="no_categories_found">No categories found</string>
+    <string name="no_test_found">No test found</string>
+    <string name="no_topic_found">No topic found</string>
 
 
 </resources>

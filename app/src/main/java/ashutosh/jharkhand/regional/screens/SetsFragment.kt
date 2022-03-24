@@ -14,20 +14,21 @@ import ashutosh.jharkhand.regional.adapter.SetClickListener
 import ashutosh.jharkhand.regional.adapter.SetsAdapter
 import ashutosh.jharkhand.regional.databinding.FragmentSetsBinding
 import ashutosh.jharkhand.regional.viewModels.MainViewModel
+import ashutosh.jharkhand.regional.viewModels.SetViewModel
 
 class SetsFragment : Fragment() {
 
     private val args: SetsFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentSetsBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: SetViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSetsBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.nav_graph_xml))[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this)[SetViewModel::class.java]
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -53,10 +54,7 @@ class SetsFragment : Fragment() {
         )
         binding.setRecyclerView.adapter = setsAdapter
 
-//        val emptyDataObserver = EmptyDataObserver(binding.setRecyclerView, binding.emptyTextView, binding.longClickText)
-//        setsAdapter.registerAdapterDataObserver(emptyDataObserver)
-
-        viewModel.updateSets(args.category.id, args.topic.id)
+        viewModel.getSetsFromFirebase(args.category.id, args.topic.id)
     }
 
 }

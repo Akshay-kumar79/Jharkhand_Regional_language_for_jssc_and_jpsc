@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="ashutosh.jharkhand.regional.viewModels.MainViewModel"/>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="ashutosh.jharkhand.regional.viewModels.MainViewModel" />
+            type="ashutosh.jharkhand.regional.viewModels.TopicViewModel" />
     </data>
 
     <FrameLayout
@@ -14,9 +16,26 @@
         android:layout_height="match_parent"
         tools:context=".screens.TopicFragment">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.topicLoadingStatus == MainViewModel.LOADING_STATUS_NO_FOUND ? View.VISIBLE : View.GONE}"
+            android:text="@string/no_topic_found"
+            android:textColor="@color/white"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="gone"
+            android:visibility="@{viewModel.topicLoadingStatus == MainViewModel.LOADING_STATUS_LOADING ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/main_theme"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/topic_recycler_view"
             listTopics="@{viewModel.currentTopics}"
+            android:visibility="@{viewModel.topicLoadingStatus == MainViewModel.LOADING_STATUS_COMPLETE ? View.VISIBLE : View.GONE}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="8dp"

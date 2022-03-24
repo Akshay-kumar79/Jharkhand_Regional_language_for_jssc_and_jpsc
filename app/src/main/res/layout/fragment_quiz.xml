@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="ashutosh.jharkhand.regional.viewModels.QuizViewModel"/>
+        <import type="android.view.View"/>
         <variable
             name="quizViewModel"
             type="ashutosh.jharkhand.regional.viewModels.QuizViewModel" />
@@ -14,9 +16,27 @@
         android:layout_height="match_parent"
         tools:background="@drawable/ic_simple_shiny">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{quizViewModel.loadingStatus == QuizViewModel.LOADING_STATUS_NO_FOUND ? View.VISIBLE : View.GONE}"
+            android:text="@string/no_questions_found_for_this_text"
+            android:textColor="@color/white"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="gone"
+            android:visibility="@{quizViewModel.loadingStatus == QuizViewModel.LOADING_STATUS_LOADING ? View.VISIBLE : View.GONE}"
+            app:backgroundTint="@color/main_theme"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:visibility="gone"
+            android:visibility="@{quizViewModel.loadingStatus == QuizViewModel.LOADING_STATUS_COMPLETE ? View.VISIBLE : View.GONE}"
             android:scrollbars="none">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -30,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:gravity="center"
-                    android:text="1 out of 21"
+                    android:text="@{quizViewModel.questionNumber}"
+                    tools:text="1 out of 21"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -40,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:gravity="center"
-                    android:text="Q-1 Identify the incorrect constructor type."
+                    android:text="@{quizViewModel.question}"
+                    tools:text="Q-1 Identify the incorrect constructor type."
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -55,64 +77,75 @@
                     app:strokeColor="@color/black"
                     app:strokeWidth="1dp">
 
-                    <RadioGroup
-                        android:id="@+id/radioGroup"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/button_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="8dp"
                         android:layout_marginVertical="16dp"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView">
+                        android:orientation="vertical">
 
-                        <RadioButton
+                        <TextView
                             android:id="@+id/opt_1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/custom_button_normal"
+                            android:layout_height="48dp"
+                            android:background="@{quizViewModel.opt_1_background}"
                             android:button="@android:color/transparent"
                             android:fontFamily="@font/ubuntu_bold"
+                            android:clickable="@{quizViewModel.isOptionClickable}"
                             android:gravity="center"
-                            android:text="Find constructor"
-                            android:textColor="@color/white" />
+                            android:text="@{quizViewModel.opt1}"
+                            tools:text="Find constructor"
+                            android:textColor="@color/white"
+                            android:onClick="@{() -> quizViewModel.opt1Click()}"/>
 
-                        <RadioButton
+                        <TextView
                             android:id="@+id/opt_2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/custom_button_normal"
+                            android:background="@{quizViewModel.opt_2_background}"
                             android:button="@android:color/transparent"
                             android:fontFamily="@font/ubuntu_bold"
+                            android:clickable="@{quizViewModel.isOptionClickable}"
                             android:gravity="center"
-                            android:text="Default constructor"
-                            android:textColor="@color/white" />
+                            android:text="@{quizViewModel.opt2}"
+                            tools:text="Default constructor"
+                            android:textColor="@color/white"
+                            android:onClick="@{() -> quizViewModel.opt2Click()}"/>
 
-                        <RadioButton
+                        <TextView
                             android:id="@+id/opt_3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/custom_button_normal"
+                            android:background="@{quizViewModel.opt_3_background}"
                             android:button="@android:color/transparent"
+                            android:clickable="@{quizViewModel.isOptionClickable}"
                             android:fontFamily="@font/ubuntu_bold"
                             android:gravity="center"
-                            android:text="Parameterized constructor"
-                            android:textColor="@color/white" />
+                            android:text="@{quizViewModel.opt3}"
+                            tools:text="Parameterized constructor"
+                            android:textColor="@color/white"
+                            android:onClick="@{() -> quizViewModel.opt3Click()}"/>
 
-                        <RadioButton
+                        <TextView
                             android:id="@+id/opt_4"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/custom_button_normal"
+                            android:background="@{quizViewModel.opt_4_background}"
                             android:button="@android:color/transparent"
+                            android:clickable="@{quizViewModel.isOptionClickable}"
                             android:fontFamily="@font/ubuntu_bold"
                             android:gravity="center"
-                            android:text="Copy constructor"
-                            android:textColor="@color/white" />
+                            android:text="@{quizViewModel.opt4}"
+                            tools:text="Copy constructor"
+                            android:textColor="@color/white"
+                            android:onClick="@{() -> quizViewModel.opt4Click()}"/>
 
-                    </RadioGroup>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -122,6 +155,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginVertical="48dp"
                     android:text="@string/next"
+                    android:onClick="@{() -> quizViewModel.onNextClick()}"
                     app:backgroundTint="#9E88FF"
                     app:icon="@drawable/ic_round_play_arrow_24"
                     app:strokeColor="@color/white"

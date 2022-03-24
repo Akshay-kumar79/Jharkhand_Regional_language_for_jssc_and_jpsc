@@ -23,4 +23,6 @@ object Constants {
     const val QUESTION_CORRECT_ANSWER_FIELD = "correct_answer"
     const val QUESTION_TIME_FIELD = "question_time"
 
+   // const val IS_DATA_LOADING = "is_data_loading"
+
 }

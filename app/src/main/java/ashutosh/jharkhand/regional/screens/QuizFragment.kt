@@ -26,6 +26,8 @@ class QuizFragment : Fragment() {
         binding = FragmentQuizBinding.inflate(inflater, container, false)
         quizViewModel = ViewModelProvider(this)[QuizViewModel::class.java]
 
+        quizViewModel.getQuestionsFromFirebase(args.category.id, args.topic.id, args.set.id)
+
         binding.quizViewModel = quizViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
